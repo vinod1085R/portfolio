@@ -27,3 +27,5 @@ Replace/add:
 3. Go to repository Settings → Pages.
 4. Select the main branch and root folder.
 5. Save and open the generated GitHub Pages URL.
+
+https://vinod1085r.github.io/portfolio/

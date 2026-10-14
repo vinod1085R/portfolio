@@ -1,0 +1,86 @@
+const body = document.body;
+const themeToggle = document.querySelector('.theme-toggle');
+const menuToggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+const backTop = document.getElementById('backTop');
+const cursorGlow = document.querySelector('.cursor-glow');
+
+function applyTheme(theme) {
+  const light = theme === 'light';
+  body.classList.toggle('light', light);
+  if (themeToggle) {
+    themeToggle.textContent = light ? '☀' : '☾';
+    themeToggle.setAttribute('aria-label', light ? 'Switch to night mode' : 'Switch to day mode');
+    themeToggle.setAttribute('aria-pressed', String(light));
+    themeToggle.title = light ? 'Switch to night mode' : 'Switch to day mode';
+  }
+}
+
+let savedTheme = 'dark';
+try { savedTheme = localStorage.getItem('theme') || 'dark'; } catch (error) { /* Storage may be blocked in private browsing. */ }
+applyTheme(savedTheme);
+
+themeToggle?.addEventListener('click', () => {
+  const nextTheme = body.classList.contains('light') ? 'dark' : 'light';
+  applyTheme(nextTheme);
+  try { localStorage.setItem('theme', nextTheme); } catch (error) { /* Theme still works for this page view. */ }
+});
+
+menuToggle?.addEventListener('click', () => {
+  const isOpen = navLinks.classList.toggle('open');
+  menuToggle.setAttribute('aria-expanded', String(isOpen));
+});
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => navLinks.classList.remove('open'));
+});
+
+window.addEventListener('scroll', () => backTop?.classList.toggle('show', window.scrollY > 500));
+backTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+if (cursorGlow && window.matchMedia('(pointer: fine)').matches) {
+  window.addEventListener('mousemove', event => {
+    cursorGlow.style.left = `${event.clientX}px`;
+    cursorGlow.style.top = `${event.clientY}px`;
+  });
+} else if (cursorGlow) cursorGlow.hidden = true;
+
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+    if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+  }), { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+} else document.querySelectorAll('.reveal').forEach(element => element.classList.add('visible'));
+
+const certificateModal = document.getElementById('certificateModal');
+const certificateFrame = document.getElementById('certificateFrame');
+const certificateImage = document.getElementById('certificateImage');
+const certificateTitle = document.getElementById('certificateTitle');
+function closeCertificate() {
+  if (certificateModal?.open) certificateModal.close();
+  if (certificateFrame) certificateFrame.src = 'about:blank';
+  if (certificateImage) certificateImage.removeAttribute('src');
+}
+document.querySelectorAll('.certificate-view').forEach(button => button.addEventListener('click', () => {
+  const file = button.dataset.certificate;
+  const title = button.dataset.title || 'Certificate preview';
+  certificateTitle.textContent = title;
+  const isPdf = file.toLowerCase().endsWith('.pdf');
+  certificateFrame.hidden = !isPdf;
+  certificateImage.hidden = isPdf;
+  if (isPdf) certificateFrame.src = file;
+  else certificateImage.src = file;
+  if (typeof certificateModal.showModal === 'function') certificateModal.showModal();
+  else window.open(file, '_blank', 'noopener');
+}));
+document.getElementById('closeCertificate')?.addEventListener('click', closeCertificate);
+certificateModal?.addEventListener('click', event => { if (event.target === certificateModal) closeCertificate(); });
+
+const contactForm = document.getElementById('contactForm');
+contactForm?.addEventListener('submit', event => {
+  event.preventDefault();
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const message = document.getElementById('message').value.trim();
+  const subject = encodeURIComponent(`Portfolio contact from ${name}`);
+  const bodyText = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+  window.location.href = `mailto:vinod1085r@gmail.com?subject=${subject}&body=${bodyText}`;
+});

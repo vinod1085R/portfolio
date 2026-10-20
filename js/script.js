@@ -84,3 +84,29 @@ contactForm?.addEventListener('submit', event => {
   const bodyText = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
   window.location.href = `mailto:vinod1085r@gmail.com?subject=${subject}&body=${bodyText}`;
 });
+
+
+// Circlo gallery: arrows, dots, keyboard and touch swipe support.
+(() => {
+  const viewport = document.getElementById('circloCarousel');
+  const track = document.getElementById('circloTrack');
+  const count = document.getElementById('circloCount');
+  const dotsWrap = document.getElementById('circloDots');
+  if (!viewport || !track || !dotsWrap) return;
+  const slides = Array.from(track.children);
+  const dots = Array.from(dotsWrap.querySelectorAll('button'));
+  let index = 0, startX = 0, endX = 0;
+  const show = n => {
+    index = (n + slides.length) % slides.length;
+    track.style.transform = `translateX(-${index * 100}%)`;
+    if (count) count.textContent = `${index + 1} / ${slides.length}`;
+    dots.forEach((dot, i) => { dot.classList.toggle('active', i === index); dot.setAttribute('aria-pressed', String(i === index)); });
+  };
+  document.getElementById('circloPrev')?.addEventListener('click', () => show(index - 1));
+  document.getElementById('circloNext')?.addEventListener('click', () => show(index + 1));
+  dots.forEach((dot, i) => dot.addEventListener('click', () => show(i)));
+  viewport.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') show(index - 1); if (e.key === 'ArrowRight') show(index + 1); });
+  viewport.addEventListener('touchstart', e => { startX = e.changedTouches[0].screenX; }, { passive: true });
+  viewport.addEventListener('touchend', e => { endX = e.changedTouches[0].screenX; const delta = endX - startX; if (Math.abs(delta) > 45) show(index + (delta < 0 ? 1 : -1)); }, { passive: true });
+  show(0);
+})();

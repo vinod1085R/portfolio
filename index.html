@@ -169,22 +169,19 @@
             <a class="text-link" href="mailto:vinod1085r@gmail.com?subject=Circlo%20Project">Ask about project →</a>
           </div>
         </div>
-        <div class="project-art circlo-brand-preview"><img src="images/circlo-logo.jpg" alt="Circlo project logo"><div class="screenshot-caption">Circlo • Social connectivity concept</div></div>
-      </article>
-
-      <div class="circlo-carousel reveal" aria-label="Circlo project screenshots">
-        <div class="circlo-carousel-top"><span>Circlo • Project previews</span><span class="carousel-count" id="circloCount">1 / 4</span></div>
-        <div class="circlo-carousel-window" id="circloCarousel" tabindex="0" aria-label="Swipe or use arrow buttons to view Circlo screenshots">
-          <div class="circlo-carousel-track" id="circloTrack">
-            <article class="circlo-slide circlo-logo-slide"><img src="images/circlo-logo.jpg" alt="Circlo official logo"><div class="circlo-slide-copy"><span>CIRCLO • PROJECT BRAND</span><h3>Circlo</h3><p>A social connectivity project in development.</p></div></article>
-            <article class="circlo-slide"><img src="images/circlo-home.jpg" alt="Circlo home screen showing people nearby"><div class="circlo-slide-copy"><span>CIRCLO • HOME VIEW</span><h3>People Around You</h3><p>Nearby-people experience, radius control and connection cards.</p></div></article>
-            <article class="circlo-slide"><img src="images/circlo-map.jpg" alt="Circlo map interface"><div class="circlo-slide-copy"><span>CIRCLO • MAP VIEW</span><h3>Explore the Map</h3><p>Map interface concept with location radius and nearby-people area.</p></div></article>
-            <article class="circlo-slide"><img src="images/circlo-profile.jpg" alt="Circlo profile interface"><div class="circlo-slide-copy"><span>CIRCLO • PROFILE VIEW</span><h3>Profile & Interests</h3><p>Profile information, interests and connection preferences.</p></div></article>
+        <div class="project-art circlo-brand-preview" aria-label="Circlo project photo gallery">
+          <div class="circlo-carousel-window" id="circloCarousel" tabindex="0" aria-label="Swipe or use arrow buttons to view Circlo screenshots">
+            <div class="circlo-carousel-track" id="circloTrack">
+              <article class="circlo-slide circlo-logo-slide"><img src="images/circlo-logo.jpg" alt="Circlo official logo"><div class="circlo-slide-copy"><span>CIRCLO • PROJECT BRAND</span><h3>Circlo</h3><p>A social connectivity project in development.</p></div></article>
+              <article class="circlo-slide"><img src="images/circlo-home.jpg" alt="Circlo home screen showing people nearby"><div class="circlo-slide-copy"><span>CIRCLO • HOME VIEW</span><h3>People Around You : Nearby-people experience, radius control and connection cards</h3><p>Nearby-people experience, radius control and connection cards.</p></div></article>
+              <article class="circlo-slide"><img src="images/circlo-map.jpg" alt="Circlo map interface"><div class="circlo-slide-copy"><span>CIRCLO • MAP VIEW</span><h3>Explore the Map : Map interface concept with location radius and nearby-people area.</h3><p>Map interface concept with location radius and nearby-people area.</p></div></article>
+              <article class="circlo-slide"><img src="images/circlo-profile.jpg" alt="Circlo profile interface"><div class="circlo-slide-copy"><span>CIRCLO • PROFILE VIEW</span><h3>Profile & Interests : Profile information, interests and connection preferences.</h3><p>Profile information, interests and connection preferences.</p></div></article>
+            </div>
           </div>
+          <div class="circlo-carousel-controls"><button type="button" id="circloPrev" aria-label="Previous Circlo photo">←</button><div class="circlo-dots" id="circloDots"><button class="active" aria-label="Show photo 1"></button><button aria-label="Show photo 2"></button><button aria-label="Show photo 3"></button><button aria-label="Show photo 4"></button></div><button type="button" id="circloNext" aria-label="Next Circlo photo">→</button></div>
+          <a class="circlo-github-link" href="https://github.com/vinod1085R/Circlo.git" target="_blank" rel="noopener">View Circlo on GitHub ↗</a>
         </div>
-        <div class="circlo-carousel-controls"><button type="button" id="circloPrev" aria-label="Previous Circlo photo">←</button><div class="circlo-dots" id="circloDots"><button class="active" aria-label="Show photo 1"></button><button aria-label="Show photo 2"></button><button aria-label="Show photo 3"></button><button aria-label="Show photo 4"></button></div><button type="button" id="circloNext" aria-label="Next Circlo photo">→</button></div>
-        <a class="circlo-github-link" href="https://github.com/vinod1085R/Circlo.git" target="_blank" rel="noopener">View Circlo on GitHub ↗</a>
-      </div>
+      </article>
 
       <article class="project-feature reveal">
         <div class="project-index">02</div>
@@ -292,6 +289,16 @@
       </div>
     </section>
   </main>
+
+  <div class="circlo-lightbox" id="circloLightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Circlo photo viewer">
+    <button class="circlo-lightbox-close" id="circloLightboxClose" type="button" aria-label="Close photo viewer">×</button>
+    <button class="circlo-lightbox-nav circlo-lightbox-prev" id="circloLightboxPrev" type="button" aria-label="Previous photo">‹</button>
+    <div class="circlo-lightbox-content">
+      <img id="circloLightboxImage" src="" alt="">
+      <div class="circlo-lightbox-caption"><span id="circloLightboxTitle">Circlo</span><span id="circloLightboxCount">1 / 4</span></div>
+    </div>
+    <button class="circlo-lightbox-nav circlo-lightbox-next" id="circloLightboxNext" type="button" aria-label="Next photo">›</button>
+  </div>
 
   <footer>
     <div class="footer-main">

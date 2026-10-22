@@ -109,4 +109,60 @@ contactForm?.addEventListener('submit', event => {
   viewport.addEventListener('touchstart', e => { startX = e.changedTouches[0].screenX; }, { passive: true });
   viewport.addEventListener('touchend', e => { endX = e.changedTouches[0].screenX; const delta = endX - startX; if (Math.abs(delta) > 45) show(index + (delta < 0 ? 1 : -1)); }, { passive: true });
   show(0);
+
+  // Open a large, Instagram-style viewer when any gallery photo is clicked.
+  const lightbox = document.getElementById('circloLightbox');
+  const lightboxImage = document.getElementById('circloLightboxImage');
+  const lightboxTitle = document.getElementById('circloLightboxTitle');
+  const lightboxCount = document.getElementById('circloLightboxCount');
+  const titles = slides.map(slide => slide.querySelector('.circlo-slide-copy h3')?.textContent.trim() || 'Circlo');
+  const images = slides.map(slide => slide.querySelector('img'));
+  let previousFocus = null;
+  const updateLightbox = () => {
+    const img = images[index];
+    if (!img || !lightboxImage) return;
+    lightboxImage.src = img.currentSrc || img.src;
+    lightboxImage.alt = img.alt || titles[index];
+    if (lightboxTitle) lightboxTitle.textContent = titles[index];
+    if (lightboxCount) lightboxCount.textContent = `${index + 1} / ${slides.length}`;
+  };
+  const openLightbox = i => {
+    index = (i + slides.length) % slides.length;
+    previousFocus = document.activeElement;
+    updateLightbox();
+    lightbox?.classList.add('is-open');
+    lightbox?.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('circloLightboxClose')?.focus();
+  };
+  const closeLightbox = () => {
+    lightbox?.classList.remove('is-open');
+    lightbox?.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    previousFocus?.focus?.();
+  };
+  images.forEach((img, i) => {
+    img.setAttribute('tabindex', '0');
+    img.setAttribute('role', 'button');
+    img.setAttribute('aria-label', `Open ${titles[i]} photo larger`);
+    img.addEventListener('click', () => openLightbox(i));
+    img.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(i); } });
+  });
+  document.getElementById('circloLightboxClose')?.addEventListener('click', closeLightbox);
+  document.getElementById('circloLightboxPrev')?.addEventListener('click', () => { show(index - 1); updateLightbox(); });
+  document.getElementById('circloLightboxNext')?.addEventListener('click', () => { show(index + 1); updateLightbox(); });
+  lightbox?.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (!lightbox?.classList.contains('is-open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') { show(index - 1); updateLightbox(); }
+    if (e.key === 'ArrowRight') { show(index + 1); updateLightbox(); }
+  });
+  // Support swipe gestures while viewing a photo on touchscreens.
+  let lightboxStartX = 0;
+  lightbox?.addEventListener('touchstart', e => { lightboxStartX = e.changedTouches[0].screenX; }, { passive: true });
+  lightbox?.addEventListener('touchend', e => {
+    const delta = e.changedTouches[0].screenX - lightboxStartX;
+    if (Math.abs(delta) > 50) { show(index + (delta < 0 ? 1 : -1)); updateLightbox(); }
+  }, { passive: true });
 })();
